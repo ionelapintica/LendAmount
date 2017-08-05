@@ -48,9 +48,9 @@ public class Quotation {
         double totalAmountToPay = availableLenderers.stream().mapToDouble( a -> a.getAmount() * Math.pow(1+ (a.getRate()/12), 36)).sum();
 
         System.out.println("Requested Amount = " + amountToBorrow);
-        System.out.printf("Rate = %.1f%%\n" + totalRate);
-        System.out.printf("Monthly repayment = %.2f \n" + (totalAmountToPay/36));
-        System.out.printf("Totally payment = %.2f \n" + totalAmountToPay);
+        System.out.printf("Rate = %.1f%%\n", totalRate);
+        System.out.printf("Monthly repayment = %.2f \n", (totalAmountToPay/36));
+        System.out.printf("Totally payment = %.2f \n", totalAmountToPay);
     }
 
     private static List<Lenderer> processCsvFile(String fileName){
@@ -59,6 +59,8 @@ public class Quotation {
         Path filePath = Paths.get(fileName);
         try(BufferedReader br = new BufferedReader(new FileReader(filePath.toAbsolutePath().toString()))){
             String line = "";
+			//skip the header from file
+			br.readLine();
             while ((line = br.readLine()) != null ){
                 String [] lendererInfo = line.split(",");
                 Lenderer lenderer = new Lenderer(lendererInfo[0], Double.parseDouble(lendererInfo[1]), Double.parseDouble(lendererInfo[2]));
